@@ -23,20 +23,46 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-2"></div>
-			<div class="col-md-8">
+			<div class="col-md-4"></div>
+			<div class="col-md-4">
 				<form>
-					<label for="new-entry">New Entry Value</label>
+					<label for="new-entry">New Entry Value:  </label>
 					<input id="new-entry" type="text">
-					<input id="new-entry-btn" class="btn btn-primary btn-med" type="button" value="Add Entry">
+					<br>
+					<div id="limit-results" class="dropdown">
+						<label for="drop-down-menu">Limit Results To:  </label>
+  						<button class="btn btn-default dropdown-toggle btn-primary" type="button" id="drop-down-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    						Select limit value
+    						<span class="caret"></span>
+  						</button>
+  						<ul class="dropdown-menu" aria-labelledby="drop-down-menu">
+    						<li><a class="limit-by-value" href="#">5</a></li>
+    						<li><a class="limit-by-value" href="#">10</a></li>
+    						<li><a class="limit-by-value" href="#">15</a></li>
+    						<li><a class="limit-by-value" href="#">20</a></li>
+    						<li><a class="limit-by-value" href="#">25</a></li>
+  						</ul>
+						<br>
+						<br>
+						<div class="button-container">
+  							<input id="new-entry-btn" class="btn btn-primary btn-med" type="button" value="Add Entry">
+  						</div>
+					</div>
 				</form>
 			</div>
-			<div class="col-md-2"></div>
+			<div class="col-md-4"></div>
 		</div>
 
+		<br>
+			
 		<div class="row">
 			<div class="col-md-12">
-				<div id="buttons"></div>
+				<div class="panel panel-default">
+  					<div id="entries-title" class="panel-heading">Entries</div>
+  					<div class="panel-body">
+    					<div id="buttons"></div>
+  					</div>
+				</div>	
 			</div>
 		</div>
 
@@ -44,6 +70,6 @@
 	</div>
 
 	<script type="text/javascript" src="assets/javascript/app.js"></script>
-	<script>renderButtons();</script>
+	<script>renderButtons(10);</script>
 </body>
 </html>

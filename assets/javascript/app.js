@@ -1,24 +1,37 @@
 var _apiKey = 'zEbHjF7VCx7hiK3cOhvxoLmIHwGxy2KB&';
-var _limit = 10;
-
 var _topics = ['Pac-Man', 'Donkey Kong', 'Dig Dug'];
 
 $('#new-entry-btn').on('click', function(event){
 	event.preventDefault();
 
-	var newEntryValue = $('#new-entry').val().trim()
-	
-	_topics.push(newEntryValue);
+	var newEntryValue = $('#new-entry').val().trim();
 
-	renderButtons();
+	var limitBy = $('#drop-down-menu').text().trim();
 
+	if(isNaN(limitBy)) {
+		alert('Invalid limit value specified.');
+	} else {
+		if(newEntryValue.length === 0) {
+			alert('Please specify a value for the new entry');
+		} else {
+			_topics.push(newEntryValue);
+
+			renderButtons(limitBy);
+		}
+	}
 });
+
+$(document).on('click', '.limit-by-value', populateLimitBy);
 
 $(document).on('click', '.entry-button', displayGIFs);
 
 $(document).on('click', '.entry-gif', changeImage);
 
-function renderButtons() {
+function populateLimitBy() {
+	$('#drop-down-menu').html($(this).text() + '  <span class="caret"></span>');
+}
+
+function renderButtons(limitByValue) {
 	$('#buttons').empty();
 
 	for(var i=0; i<_topics.length; i++) {
@@ -27,6 +40,7 @@ function renderButtons() {
 		button.text(_topics[i]);
 		button.addClass('entry-button');
 		button.addClass('btn btn-success btn-md');
+		button.attr('limit-by', limitByValue);
 
 		$('#buttons').append(button);
 	}
@@ -36,8 +50,12 @@ function displayGIFs() {
 	var entryValue = $(this).text();
 
 	$('#images').empty();
+
+	var limitBy = $(this).attr('limit-by');
 	
-	var queryURL = 'https://api.giphy.com/v1/gifs/search?api_key=' + _apiKey + '&q=' + entryValue + '&limit=' + _limit;
+	var queryURL = 'https://api.giphy.com/v1/gifs/search?api_key=' + _apiKey + '&q=' + entryValue + '&limit=' + limitBy;
+
+	console.log(queryURL);
 
 	$.ajax({
 		url: queryURL,
