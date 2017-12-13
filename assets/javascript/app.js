@@ -1,5 +1,8 @@
 var _apiKey = 'zEbHjF7VCx7hiK3cOhvxoLmIHwGxy2KB&';
-var _topics = ['Pac-Man', 'Donkey Kong', 'Dig Dug'];
+var _topics = ['Pac-Man', 'Donkey Kong', 'Dig Dug', 'Contra', 'Castlevania', 'Street Fighter', 'Grand Theft Auto V', 'Halo', 'Super Mario Bros', 'Blades of Steel',
+			'Ico', 'The Legend of Zelda', 'Metroid', 'Call of Duty', 'Duke Nukem', 'Doom', 'Half Life', 'Cup Head', 'Smash Bros.', 'Spy Hunger', 'Gauntlet',
+			'Power Stone', 'Mortal Kombat'
+			];
 
 $('#new-entry-btn').on('click', function(event){
 	event.preventDefault();
