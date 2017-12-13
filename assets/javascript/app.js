@@ -4,6 +4,7 @@ var _topics = ['Pac-Man', 'Donkey Kong', 'Dig Dug', 'Contra', 'Castlevania', 'St
 			'Power Stone', 'Mortal Kombat'
 			];
 
+// Listener for the Add Entry button
 $('#new-entry-btn').on('click', function(event){
 	event.preventDefault();
 
@@ -24,16 +25,22 @@ $('#new-entry-btn').on('click', function(event){
 	}
 });
 
+// Listener for the selected limit value dropdown button
 $(document).on('click', '.limit-by-value', populateLimitBy);
 
+// Listener for entry buttons
 $(document).on('click', '.entry-button', displayGIFs);
 
+// Listener to animate or displaying still image
 $(document).on('click', '.image-container .col-md-4', changeImage);
 
+// Listener to show the play button
 $(document).on('mouseenter', '.image-container .col-md-4', showPlayOrPause);
 
+// Listener to show the pause button
 $(document).on('mouseleave', '.image-container .col-md-4', showPlayOrPause);
 
+// Function to display the play or the pause button depending on the current state of the image
 function showPlayOrPause(event) {
 	// Get image state
 	// This will be used to determine which button to display
@@ -57,10 +64,12 @@ function showPlayOrPause(event) {
 	}
 }
 
+// Function used to change the text on the Select Limit By button
 function populateLimitBy() {
 	$('#drop-down-menu').html($(this).text() + '  <span class="caret"></span>');
 }
 
+// Creates buttons for each entry in the topics array
 function renderButtons(limitByValue) {
 	$('#buttons').empty();
 
@@ -76,6 +85,7 @@ function renderButtons(limitByValue) {
 	}
 }
 
+// Pulls data from the Giphy API and displays it
 function displayGIFs() {
 	var entryValue = $(this).text();
 
@@ -155,6 +165,7 @@ function displayGIFs() {
 	});
 }
 
+// Changes from still image to the animated image based on the state
 function changeImage() {
 	var imgState = $(this).children('.entry-gif').attr('img-state');
 	var stillURL = $(this).children('.entry-gif').attr('still-url');
