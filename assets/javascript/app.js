@@ -92,6 +92,9 @@ function displayGIFs() {
 	$('#images').empty();
 
 	var limitBy = $(this).attr('limit-by');
+
+	// Update results limited by span
+	$('#results-limited-by').text(limitBy);
 	
 	var queryURL = 'https://api.giphy.com/v1/gifs/search?api_key=' + _apiKey + '&q=' + entryValue + '&limit=' + limitBy;
 
@@ -107,9 +110,6 @@ function displayGIFs() {
 			var animatedURL = response.data[i].images.downsized.url;
 			var imageAlt = response.data[i].slug;
 
-			//var gifWidth = response.data[i].images.downsized_still.width;
-			//var gifHeight = response.data[i].images.downsized_still.height;
-
 			var rating = response.data[i].rating;
 
 			var rowDiv;
@@ -122,12 +122,6 @@ function displayGIFs() {
 				rowDiv.addClass('image-container');
 				rowDiv.addClass('row');
 				rowDiv.attr('id', newRowCounter);
-
-				// Add empty col
-				// var emptyCol = $('<div></div>');
-				// emptyCol.addClass('col-md-2');
-
-				// rowDiv.append(emptyCol);
 
 				lastRowId = newRowCounter;
 			} else {
