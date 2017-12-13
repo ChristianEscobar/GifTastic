@@ -7,7 +7,13 @@
 	box-shadow: 5px 5px 5px grey;
 }
 
-.entry-gif:hover {
+.image-container .col-md-4 {
+	margin: auto;
+	position: relative;
+	text-align: center;
+}
+
+.image-container .col-md-4:hover {
 	cursor: pointer;
 }
 
@@ -15,7 +21,25 @@
 	font-family: 'Gochi Hand', cursive;
 	font-weight: bold;
 	font-size: 1.5em;
-	padding: 10px;
+	padding: 0;
+}
+
+.play-pause-btn {
+	position: absolute;
+	display: none;
+	z-index: 1;
+	top: 30%;
+	left: 40%;
+	width: 80px;
+	height: 80px;
+	margin: 0;
+	padding: 0;
+}
+
+.entry-gif {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .button-container {

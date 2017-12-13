@@ -25,7 +25,34 @@ $(document).on('click', '.limit-by-value', populateLimitBy);
 
 $(document).on('click', '.entry-button', displayGIFs);
 
-$(document).on('click', '.entry-gif', changeImage);
+$(document).on('click', '.image-container .col-md-4', changeImage);
+
+$(document).on('mouseenter', '.image-container .col-md-4', showPlayOrPause);
+
+$(document).on('mouseleave', '.image-container .col-md-4', showPlayOrPause);
+
+function showPlayOrPause(event) {
+	// Get image state
+	// This will be used to determine which button to display
+	var imageState = $(this).children('.entry-gif').attr('img-state');
+
+	if(imageState === 'still') {
+		$(this).children('.play-pause-btn').attr('src', './assets/images/play-button.png');
+	}
+	else if(imageState === 'animated') {
+		$(this).children('.play-pause-btn').attr('src', './assets/images/pause-button.png');
+	} else {
+		alert('Unhandled image state encountered in showPlayOrPause():  ' + imageState);
+	}
+
+	if(event.type === 'mouseenter') {
+		$(this).children('.play-pause-btn').css('display', 'inline');
+	} else if(event.type === 'mouseleave') {
+		$(this).children('.play-pause-btn').css('display', 'none');
+	} else {
+		alert('Unhandled event.type encountered in showPlayOrPause():  ' + event.type);
+	}
+}
 
 function populateLimitBy() {
 	$('#drop-down-menu').html($(this).text() + '  <span class="caret"></span>');
@@ -55,8 +82,6 @@ function displayGIFs() {
 	
 	var queryURL = 'https://api.giphy.com/v1/gifs/search?api_key=' + _apiKey + '&q=' + entryValue + '&limit=' + limitBy;
 
-	console.log(queryURL);
-
 	$.ajax({
 		url: queryURL,
 		method: "GET",
@@ -65,9 +90,12 @@ function displayGIFs() {
 		var lastRowId = 0;
 
 		for(var i=0; i<response.data.length; i++) {
-			var stillImageURL = response.data[i].images.fixed_height_still.url;
-			var animatedURL = response.data[i].images.fixed_height.url;
+			var stillImageURL = response.data[i].images.downsized_still.url;
+			var animatedURL = response.data[i].images.downsized.url;
 			var imageAlt = response.data[i].slug;
+
+			//var gifWidth = response.data[i].images.downsized_still.width;
+			//var gifHeight = response.data[i].images.downsized_still.height;
 
 			var rating = response.data[i].rating;
 
@@ -75,24 +103,30 @@ function displayGIFs() {
 
 			// Display 3 images per row
 			if(newRowCounter % 3 === 0) {
+				// Create a new row
 				rowDiv = $('<div></div>');
 				
 				rowDiv.addClass('image-container');
 				rowDiv.addClass('row');
 				rowDiv.attr('id', newRowCounter);
 
+				// Add empty col
+				// var emptyCol = $('<div></div>');
+				// emptyCol.addClass('col-md-2');
+
+				// rowDiv.append(emptyCol);
+
 				lastRowId = newRowCounter;
 			} else {
+				// Append to existing row
 				rowDiv = $('#' + lastRowId);
 			}
 
 			var colDiv = $('<div></div>');
 			colDiv.addClass('col-md-4');
 
-			colDiv.append('Rating:  ' + rating + '<br>');
-
 			var image = $('<img/>');
-			image.addClass('entry-gif');
+			image.addClass('entry-gif img-responsive');
 			image.attr('src', stillImageURL);
 			image.attr('alt', imageAlt);
 			
@@ -100,7 +134,14 @@ function displayGIFs() {
 			image.attr('animated-url', animatedURL);
 			image.attr('still-url', stillImageURL);
 
+			// Add a play and pause image
+			var playOrPause = $('<img/>');
+			playOrPause.attr('src', './assets/images/play-button.png');
+			playOrPause.addClass('play-pause-btn img-responsive');
+
 			colDiv.append(image);
+			colDiv.append(playOrPause);
+			colDiv.append('Rating:  ' + rating + '<br>');
 
 			rowDiv.append(colDiv);
 
@@ -112,20 +153,24 @@ function displayGIFs() {
 }
 
 function changeImage() {
-	var imgState = $(this).attr('img-state');
-	var stillURL = $(this).attr('still-url');
-	var animatedURL = $(this).attr('animated-url');
+	var imgState = $(this).children('.entry-gif').attr('img-state');
+	var stillURL = $(this).children('.entry-gif').attr('still-url');
+	var animatedURL = $(this).children('.entry-gif').attr('animated-url');
 
 	if(imgState === 'still') {
-		$(this).attr('src', animatedURL);
+		$(this).children('.play-pause-btn').attr('src', './assets/images/pause-button.png');
 
-		$(this).attr('img-state', 'animated');
+		$(this).children('.entry-gif').attr('src', animatedURL);
+
+		$(this).children('.entry-gif').attr('img-state', 'animated');
 	} else if(imgState === 'animated') {
-		$(this).attr('src', stillURL);
+		$(this).children('.play-pause-btn').attr('src', './assets/images/play-button.png');
 
-		$(this).attr('img-state', 'still');
+		$(this).children('.entry-gif').attr('src', stillURL);
+
+		$(this).children('.entry-gif').attr('img-state', 'still');
 	} else {
-		alert("Invalid image state encountered:  " + imgState);
+		alert("Unhandled image state encountered in changeImage(). " + imgState);
 	}
 }
 
